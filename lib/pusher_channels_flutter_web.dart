@@ -224,6 +224,9 @@ class PusherChannelsFlutterWeb {
     if (call.arguments['cluster'] != null) {
       options.cluster = call.arguments['cluster'];
     }
+        if (call.arguments['host'] != null) {
+      options.wsHost = call.arguments['host'];
+    }
     if (call.arguments['forceTLS'] != null) {
       options.forceTLS = call.arguments['forceTLS'];
     }
