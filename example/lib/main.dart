@@ -58,7 +58,8 @@ class _MyAppState extends State<MyApp> {
     try {
       await pusher.init(
         apiKey: _apiKey.text,
-        cluster: _cluster.text,
+        host:"ws-${_cluster.text}.pusher.com",
+        // cluster: _cluster.text,
         onConnectionStateChange: onConnectionStateChange,
         onError: onError,
         onSubscriptionSucceeded: onSubscriptionSucceeded,
