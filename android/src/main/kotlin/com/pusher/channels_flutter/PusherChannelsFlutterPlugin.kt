@@ -97,7 +97,7 @@ class PusherChannelsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
             methodChannel.invokeMethod(method, args)
         }
         
-        }catch(e){ } 
+        }catch(exception: Exception){ } 
     }
 
     private fun init(
