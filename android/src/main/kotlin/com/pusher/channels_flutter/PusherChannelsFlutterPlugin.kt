@@ -41,11 +41,16 @@ class PusherChannelsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        activity = binding.activity as Activity
+           if( binding.activity != null){
+         activity = binding.activity as Activity
+        }
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-        activity = binding.activity as Activity
+        if( binding.activity != null){
+         activity = binding.activity as Activity
+        }
+       
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
