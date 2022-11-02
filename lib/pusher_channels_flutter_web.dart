@@ -89,7 +89,7 @@ class PusherChannelsFlutterWeb {
         trigger(call);
         break;
       case 'getSocketId':
-        return pusher!.connection.socketId;
+        return pusher!.connection.socket_id;
       default:
         throw PlatformException(
           code: 'Unimplemented',
@@ -220,6 +220,10 @@ class PusherChannelsFlutterWeb {
   }
 
   void init(MethodCall call) {
+    if (pusher != null) {
+      pusher!.unbind_all();
+      pusher!.disconnect();
+    }
     var options = Options();
     if (call.arguments['cluster'] != null) {
       options.cluster = call.arguments['cluster'];
