@@ -68,6 +68,7 @@ class _MyAppState extends State<MyApp> {
         onDecryptionFailure: onDecryptionFailure,
         onMemberAdded: onMemberAdded,
         onMemberRemoved: onMemberRemoved,
+        onSubscriptionCount: onSubscriptionCount,
         // authEndpoint: "<Your Authendpoint Url>",
         // onAuthorizer: onAuthorizer
       );
@@ -110,6 +111,10 @@ class _MyAppState extends State<MyApp> {
 
   void onMemberRemoved(String channelName, PusherMember member) {
     log("onMemberRemoved: $channelName user: $member");
+  }
+
+  void onSubscriptionCount(String channelName, int subscriptionCount) {
+    log("onSubscriptionCount: $channelName subscriptionCount: $subscriptionCount");
   }
 
   dynamic onAuthorizer(String channelName, String socketId, dynamic options) {
