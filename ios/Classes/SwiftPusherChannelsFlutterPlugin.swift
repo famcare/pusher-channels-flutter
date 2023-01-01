@@ -103,17 +103,22 @@ public class SwiftPusherChannelsFlutterPlugin: NSObject, FlutterPlugin, PusherDe
       "socketId": socketID,
       "channelName": channelName,
     ]) { authData in
-      if authData != nil {
-        let authDataCast = authData as! [String: String]
-        completionHandler(
-          PusherAuth(
-            auth: authDataCast["auth"]!,
-            channelData: authDataCast["channel_data"],
-            sharedSecret: authDataCast["shared_secret"]
-          ))
-      } else {
-        completionHandler(nil)
-      }
+        
+                if let stringArray = obj as? [String: String] {
+                   if authData != nil {
+                    let authDataCast = authData as! [String: String]
+                    completionHandler(
+                    PusherAuth(
+                        auth: authDataCast["auth"]!,
+                        channelData: authDataCast["channel_data"],
+                        sharedSecret: authDataCast["shared_secret"]
+                    ))
+                } else {
+                    completionHandler(nil)
+                }
+                }else { completionHandler(nil)
+                }
+
     }
   }
 
