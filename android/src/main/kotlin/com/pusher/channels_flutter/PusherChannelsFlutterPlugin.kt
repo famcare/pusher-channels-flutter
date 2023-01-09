@@ -210,7 +210,7 @@ class PusherChannelsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
     override fun authorize(channelName: String?, socketId: String?): String? {
         
           if(activity == null){
-        return;
+        return null;
         }
         var result: String? = null
         val mutex = Semaphore(0)
