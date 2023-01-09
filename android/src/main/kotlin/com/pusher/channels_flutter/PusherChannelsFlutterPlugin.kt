@@ -91,6 +91,9 @@ class PusherChannelsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
     }
 
     private fun callback(method: String, args: Any) {
+            if(activity == null){
+        return;
+        }
         try{
          activity!!.runOnUiThread {
             methodChannel.invokeMethod(method, args)
@@ -137,16 +140,25 @@ class PusherChannelsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
     }
 
     private fun connect(result: Result) {
+            if(pusher == null){
+        return;
+        }
         pusher!!.connect(this, ConnectionState.ALL)
         result.success(null)
     }
 
     private fun disconnect(result: Result) {
+            if(pusher == null){
+        return;
+        }
         pusher!!.disconnect()
         result.success(null)
     }
 
     private fun subscribe(channelName: String, result: Result) {
+            if(pusher == null){
+        return;
+        }
         val channel = when {
             channelName.startsWith("private-encrypted-") -> pusher!!.subscribePrivateEncrypted(
                 channelName, this
@@ -162,11 +174,18 @@ class PusherChannelsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
     }
 
     private fun unsubscribe(channelName: String, result: Result) {
+            if(pusher == null){
+        return;
+        }
         pusher!!.unsubscribe(channelName)
         result.success(null)
     }
 
     private fun trigger(channelName: String, eventName: String, data: String, result: Result) {
+        
+        if(pusher == null){
+        return;
+        }
         when {
             channelName.startsWith("private-encrypted-") -> throw Exception("It's not currently possible to send a message using private encrypted channels.")
             channelName.startsWith("private-") -> pusher!!.getPrivateChannel(channelName)
@@ -179,11 +198,20 @@ class PusherChannelsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
     }
 
     private fun getSocketId(result: Result) {
+            
+        if(pusher == null){
+        return;
+        }
+        
         val socketId = pusher!!.connection.socketId
         result.success(socketId)
     }
 
     override fun authorize(channelName: String?, socketId: String?): String? {
+        
+          if(activity == null){
+        return;
+        }
         var result: String? = null
         val mutex = Semaphore(0)
         activity!!.runOnUiThread {
@@ -260,7 +288,13 @@ class PusherChannelsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
     override fun onUsersInformationReceived(channelName: String?, users: MutableSet<User>?) {
         // Log.i(TAG, "Users received: $users")
         val gson = Gson()
+        if(pusher == null || channelName == null  || users == null){
+        return;
+        }
         val channel = pusher!!.getPresenceChannel(channelName)
+        if(channel == null) {
+        return;
+        }
         val hash = mutableMapOf<String, Any?>()
         // convert users back to original structure.
         for (user in users!!) {
